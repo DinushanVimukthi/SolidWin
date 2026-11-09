@@ -1,0 +1,77 @@
+/*
+ * Design tokens: single source of truth for the Solidwin visual language.
+ *
+ * NOTE: Colour values are PROVISIONAL (estimated from the Figma preview).
+ * Phase 0 must replace them with exact values from Figma Dev Mode.
+ * Components must only consume these variables, never raw values.
+ */
+:root {
+  /* Brand */
+  --color-primary-900: #1b0f33;
+  --color-primary-800: #2a1650;
+  --color-primary-700: #3b1d6e;
+  --color-primary-600: #4f2a8c;
+  --color-accent-500: #f2a71b;
+  --color-accent-600: #d98f0b;
+  --color-accent-100: #fdf0d3;
+
+  /* Neutrals */
+  --color-bg: #f7f7f9;
+  --color-surface: #ffffff;
+  --color-border: #e4e4ea;
+  --color-text: #17151f;
+  --color-text-muted: #5b586a;
+  --color-text-inverse: #ffffff;
+
+  /* Semantic */
+  --color-success: #1f8a4c;
+  --color-danger: #c62f3b;
+  --color-focus: #7c4dff;
+
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: clamp(2rem, 4vw + 1rem, 3.5rem);
+  --leading-tight: 1.15;
+  --leading-normal: 1.6;
+
+  /* Spacing (4px grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* Shape & elevation */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(23 21 31 / 8%);
+  --shadow-md: 0 8px 24px rgb(23 21 31 / 10%);
+
+  /* Layout */
+  --container-max: 1200px;
+  --header-height: 72px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+
+  /* Layering */
+  --z-header: 50;
+  --z-float: 60;
+  --z-modal: 100;
+}
+
+/* Breakpoints (reference): sm 640, md 768, lg 1024, xl 1280 (mobile-first). */

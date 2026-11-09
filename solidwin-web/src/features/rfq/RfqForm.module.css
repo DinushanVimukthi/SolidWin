@@ -1,0 +1,186 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 768px) {
+  .form {
+    padding: var(--space-8);
+  }
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.legend {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-primary-800);
+  border-bottom: 1px solid var(--color-border);
+  width: 100%;
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.divisionSelector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.divBtn {
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: all var(--duration-fast) var(--ease);
+}
+
+.divBtn:hover {
+  border-color: var(--color-primary-700);
+}
+
+.divActive {
+  background: var(--color-primary-800);
+  border-color: var(--color-primary-800);
+  color: var(--color-text-inverse);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .grid2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.divisionSpecific {
+  background: var(--color-bg);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.checkboxWrapper {
+  padding-top: var(--space-1);
+}
+
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkLabel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent-500);
+}
+
+.rmcDisclaimer {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-accent-100);
+  border-left: 3px solid var(--color-accent-600);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+}
+
+.actionRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+}
+
+.errorBanner {
+  font-size: var(--text-sm);
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* Success Card */
+.successCard {
+  background: var(--color-surface);
+  border: 2px solid var(--color-success);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  background: #e6f4ea;
+  color: var(--color-success);
+  font-size: 2rem;
+  font-weight: 900;
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+}
+
+.successTitle {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-primary-800);
+}
+
+.successText {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.refBox {
+  background: var(--color-bg);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+}
+
+.refBox strong {
+  color: var(--color-primary-800);
+  font-size: var(--text-lg);
+}
+
+.followupNote {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}

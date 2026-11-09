@@ -1,0 +1,76 @@
+.hero {
+  padding-block: var(--space-5);
+}
+
+.hero .container {
+  position: relative;
+  display: grid;
+  min-height: 420px;
+  padding-inline: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-800);
+  isolation: isolate;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.image {
+  object-fit: cover;
+  object-position: 70% center;
+}
+
+/* Purple panel: full-bleed on mobile, curved cut-out on desktop. */
+.panel {
+  display: flex;
+  align-items: center;
+  padding: var(--space-7) var(--space-5);
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-800) 0%,
+    var(--color-primary-800) 70%,
+    rgb(42 22 80 / 85%) 100%
+  );
+  color: var(--color-text-inverse);
+}
+
+.content {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 520px;
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+}
+
+.description {
+  max-width: 46ch;
+  font-size: var(--text-base);
+  color: rgb(255 255 255 / 80%);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .hero .container {
+    min-height: 480px;
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    width: 62%;
+    padding: var(--space-8) var(--space-8);
+    border-bottom-right-radius: 70% 100%;
+    background: var(--color-primary-800);
+  }
+}

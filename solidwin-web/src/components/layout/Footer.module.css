@@ -1,0 +1,127 @@
+.footer {
+  margin-top: var(--space-9);
+  padding-block: var(--space-8) var(--space-5);
+  background: var(--color-primary-800);
+  color: var(--color-text-inverse);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1.5fr 1fr 1.1fr 1.2fr;
+    gap: var(--space-7);
+  }
+}
+
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.brandLink {
+  display: inline-block;
+  line-height: 0;
+  transition: opacity var(--duration-fast) var(--ease);
+}
+
+.brandLink:hover {
+  opacity: 0.9;
+}
+
+.logo {
+  display: block;
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brandTagline {
+  max-width: 30ch;
+  font-size: var(--text-sm);
+  color: rgb(255 255 255 / 80%);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+.heading {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-accent-500);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list a {
+  color: rgb(255 255 255 / 80%);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease);
+}
+
+.list a:hover {
+  color: var(--color-text-inverse);
+  text-decoration: underline;
+}
+
+.helpCol {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bottom Bar */
+.bottomBar {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: var(--text-xs);
+  color: rgb(255 255 255 / 60%);
+}
+
+@media (min-width: 768px) {
+  .bottomBar {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.legal {
+  margin: 0;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.legalLinks a {
+  color: rgb(255 255 255 / 60%);
+  text-decoration: none;
+}
+
+.legalLinks a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.exeAttribution {
+  color: var(--color-accent-400);
+  font-weight: 700;
+}
