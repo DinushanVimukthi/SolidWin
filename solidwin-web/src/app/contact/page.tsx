@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Hero } from "@/components/layout/Hero";
 import { Button } from "@/components/ui/Button";
@@ -110,35 +111,17 @@ export default function ContactPage() {
           </div>
 
           <div className={styles.locationsGrid}>
-            {/* Left: Illustrative Map Preview */}
-            <div className={styles.mapCard}>
-              <svg
-                className={styles.mapPattern}
-                viewBox="0 0 600 300"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                {/* Diagonal & orthogonal grid lines representing road network */}
-                <line x1="0" y1="60" x2="600" y2="40" stroke="#cbd5e1" strokeWidth="12" />
-                <line x1="0" y1="130" x2="600" y2="120" stroke="#cbd5e1" strokeWidth="16" />
-                <line x1="0" y1="210" x2="600" y2="200" stroke="#cbd5e1" strokeWidth="14" />
-                <line x1="120" y1="0" x2="160" y2="300" stroke="#cbd5e1" strokeWidth="10" />
-                <line x1="280" y1="0" x2="260" y2="300" stroke="#cbd5e1" strokeWidth="16" />
-                <line x1="420" y1="0" x2="440" y2="300" stroke="#cbd5e1" strokeWidth="12" />
-                <line x1="530" y1="0" x2="550" y2="300" stroke="#cbd5e1" strokeWidth="8" />
-                {/* Secondary connecting road lines */}
-                <line x1="40" y1="280" x2="560" y2="30" stroke="#e2e8f0" strokeWidth="8" />
-                <line x1="30" y1="40" x2="570" y2="260" stroke="#e2e8f0" strokeWidth="8" />
-              </svg>
-
-              <div className={styles.mapPinBadge} aria-hidden="true">
-                <MapPin size={24} />
-              </div>
-
+            {/* Left: Branch Photo Preview */}
+            <div className={styles.mapCard} style={{ position: "relative", minHeight: 280, overflow: "hidden" }}>
+              <Image
+                src="/images/hardware/hardware-store-exterior-wide.jpg"
+                alt="Solidwin Hardware branch building and materials yard in Kahawa, Kosgama"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                style={{ objectFit: "cover" }}
+              />
               <div className={styles.mapCaption}>
-                Illustrative map – location to be confirmed
+                📍 Solidwin Hardware Branch &amp; Materials Yard — Kahawa, Kosgama
               </div>
             </div>
 
@@ -147,10 +130,23 @@ export default function ContactPage() {
               <div className={styles.branchIconBadge}>
                 <MapPin size={24} />
               </div>
-              <h3 className={styles.branchTitle}>Branch details to be confirmed</h3>
+              <h3 className={styles.branchTitle}>Solidwin Hardware &amp; Trade Counter</h3>
               <p className={styles.branchText}>
-                Contact our team for current branch and site information.
+                <strong>Address:</strong> No. 237/1, Kahawa, Kosgama (High Level Road)<br />
+                <strong>Direct Counter Phone:</strong> 036 2250660<br />
+                <strong>Customer Hotline:</strong> 077 727 2272 / 076 615 0036<br />
+                <strong>Operating Hours:</strong> Mon – Fri: 07:30 – 17:30 | Sat: 08:00 – 14:00
               </p>
+              <div style={{ marginTop: 8 }}>
+                <Button
+                  href="https://maps.google.com/?q=Solidwin+Hardware+Kosgama"
+                  variant="outline"
+                  size="sm"
+                  withArrow
+                >
+                  Get Directions
+                </Button>
+              </div>
             </div>
           </div>
         </Container>

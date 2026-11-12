@@ -16,9 +16,11 @@ import {
   PhoneCall,
   Search,
   ExternalLink,
+  LogOut,
 } from "lucide-react";
 import clsx from "clsx";
 import styles from "./AdminSidebar.module.css";
+import { useAdminAuth } from "./AdminAuthGuard";
 
 interface NavItem {
   label: string;
@@ -62,11 +64,29 @@ const navGroups: NavGroup[] = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const { user, logout } = useAdminAuth();
 
   const isItemActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
     return pathname.startsWith(href);
   };
+
+  const displayName = user?.name || "Solidwin Admin";
+  const initials =
+    displayName
+      .split(" ")
+      .map((p) => p[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "SW";
+
+  const displayRole = user?.role
+    ? `${user.role.toUpperCase()} • EXE Central`
+    : "Solidwin Administrator";
+
+  const exePortalUrl =
+    process.env.NEXT_PUBLIC_EXE_PORTAL_URL || "http://localhost:3001";
 
   return (
     <aside className={styles.sidebar}>
@@ -130,33 +150,50 @@ export function AdminSidebar() {
       {/* User Profile Footer */}
       <div className={styles.footer}>
         <div className={styles.userInfo}>
-          <div className={styles.avatar}>AM</div>
+          <div className={styles.avatar}>{initials}</div>
           <div className={styles.userMeta}>
-            <span className={styles.userName}>Ahmed Mansoor</span>
-            <span className={styles.userRole}>Solidwin Administrator</span>
+            <span className={styles.userName} title={user?.email || displayName}>
+              {displayName}
+            </span>
+            <span className={styles.userRole}>{displayRole}</span>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-          <Link href="/" className={styles.liveSiteLink} target="_blank" style={{ flex: 1 }}>
-            <ExternalLink size={14} />
-            <span>View Public Site</span>
-          </Link>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              padding: "4px 8px",
-              borderRadius: 6,
-              background: "#e2e8f0",
-              color: "#475569",
-              letterSpacing: "0.02em",
-            }}
-            title="Application Version"
-          >
-            v0.1.0
-          </span>
+        <div className={styles.ssoBadge}>
+          <span className={styles.greenDot} />
+          <span>EXE SSO Active</span>
         </div>
+
+        <div style={{ display: "flex", gap: 6 }}>
+          <a
+            href={`${exePortalUrl}/dashboard`}
+            className={styles.portalReturnLink}
+            style={{ flex: 1 }}
+            title="Return to EXE Central Portal"
+          >
+            <ExternalLink size={13} />
+            <span>EXE Portal</span>
+          </a>
+          <Link
+            href="/"
+            className={styles.liveSiteLink}
+            target="_blank"
+            style={{ flex: 1 }}
+            title="Open Public Solidwin Website"
+          >
+            <ExternalLink size={13} />
+            <span>Public Site</span>
+          </Link>
+        </div>
+
+        <button
+          onClick={logout}
+          className={styles.logoutButton}
+          title="Sign out of Solidwin Admin session"
+        >
+          <LogOut size={13} />
+          <span>Sign Out</span>
+        </button>
       </div>
     </aside>
   );

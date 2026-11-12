@@ -110,6 +110,36 @@
 
 .mapCol {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.storePhotoFrame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.storePhotoImg {
+  object-fit: cover;
+}
+
+.storePhotoBadge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(42, 22, 80, 0.85);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-align: center;
 }
 
 .mapFrame {

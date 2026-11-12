@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { CardGrid } from "@/components/layout/CardGrid";
 import { CtaBand } from "@/components/layout/CtaBand";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { BRAND_PARTNERS } from "@/data/hardware";
+import { HardwareGallery } from "@/features/hardware/HardwareGallery";
 import { quoteHref, siteConfig } from "@/lib/site-config";
 import styles from "./hardware.module.css";
 
@@ -25,8 +27,8 @@ export default function HardwareHubPage() {
         title="Materials and equipment. One connected solution."
         description="Source certified hollow blocks, decorative paving, plant machinery and construction materials under one contract."
         image={{
-          src: "/images/service-industrial.jpg",
-          alt: "Warehouse materials and equipment storage",
+          src: "/images/hardware/hardware-store-exterior-wide.jpg",
+          alt: "Solidwin Hardware retail showroom and materials yard in Kosgama",
         }}
         actions={
           <>
@@ -50,7 +52,10 @@ export default function HardwareHubPage() {
         <CardGrid columns={2}>
           <Card
             title="Blocks & Paving Manufacturing"
-            image={{ src: "/images/service-residential.jpg", alt: "Concrete pavers and masonry blocks" }}
+            image={{
+              src: "/images/hardware/storefront-signboard-paved.jpg",
+              alt: "Factory interlocking paving forecourt and masonry blocks",
+            }}
             href="/divisions/hardware/blocks-pavers"
             linkLabel="Explore Catalogue & Order"
           >
@@ -59,13 +64,26 @@ export default function HardwareHubPage() {
 
           <Card
             title="Plant & Equipment Hire"
-            image={{ src: "/images/hero-construction.jpg", alt: "Construction machinery on site" }}
+            image={{
+              src: "/images/hardware/forklift-and-loader.jpg",
+              alt: "Solidwin equipment hire yard, forklifts and heavy machinery",
+            }}
             href="/divisions/hardware/equipment"
             linkLabel="View Fleet & Rental Terms"
           >
-            Excavators, backhoes, compaction rollers, concrete boom pumps and site power generation available on flexible short or long-term lease.
+            Excavators, backhoes, compaction rammers, concrete transit mixers and site power equipment available on flexible short or long-term lease.
           </Card>
         </CardGrid>
+      </Section>
+
+      {/* On-Site Inventory & Storefront Gallery */}
+      <Section
+        id="store-showcase"
+        eyebrow="On-Site Inventory"
+        title="Inside Solidwin Hardware & Trade Center"
+        description="Browse authentic photos of our Kahawa showroom, MEN power tools wall, Nippon Paint color center, structural steel bays, and rental machinery."
+      >
+        <HardwareGallery />
       </Section>
 
       {/* Store & Branch Information (HWD-01) */}
@@ -101,7 +119,7 @@ export default function HardwareHubPage() {
               </div>
               <div>
                 <dt>Branch Address</dt>
-                <dd>Plot 42, Trade Gate Boulevard, Commercial Sector 3</dd>
+                <dd>{siteConfig.hardwareBranch?.address ?? "No. 237/1, Kahawa, Kosgama"}</dd>
               </div>
               <div>
                 <dt>Bulk BOQ Uploads</dt>
@@ -114,7 +132,7 @@ export default function HardwareHubPage() {
                 Upload BOQ for Pricing
               </Button>
               <a
-                href="https://maps.google.com/?q=Solidwin+Hardware+Trade+Counter"
+                href="https://maps.google.com/?q=Solidwin+Hardware+Kosgama"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.directionsBtn}
@@ -124,15 +142,27 @@ export default function HardwareHubPage() {
             </div>
           </div>
 
-          {/* Store Location Map (HWD-01) */}
+          {/* Store Location Map & Storefront Photo (HWD-01) */}
           <div className={styles.mapCol}>
+            <div className={styles.storePhotoFrame}>
+              <Image
+                src="/images/hardware/store-entrance-nippon.jpg"
+                alt="Solidwin Hardware trade entrance and showroom in Kosgama"
+                fill
+                sizes="(min-width: 900px) 450px, 100vw"
+                className={styles.storePhotoImg}
+              />
+              <div className={styles.storePhotoBadge}>
+                <span>📍 Kosgama Trade Branch & Customer Counter</span>
+              </div>
+            </div>
             <div className={styles.mapFrame}>
               <iframe
                 title="Solidwin Hardware Trade Counter Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14476.366052733918!2d67.0011!3d24.8607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDUxJzM4LjUiTiA2N8KwMDAnMDQuMCJF!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                 width="100%"
-                height="280"
-                style={{ border: 0, borderRadius: "var(--radius-md)" }}
+                height="220"
+                style={{ border: 0 }}
                 allowFullScreen={false}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

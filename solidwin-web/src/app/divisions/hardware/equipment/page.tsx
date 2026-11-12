@@ -22,8 +22,8 @@ export default function EquipmentRentalsPage() {
         title="Keep your project moving."
         description="Well-maintained heavy construction equipment, plant machinery and power generation with flexible daily and monthly rental terms."
         image={{
-          src: "/images/hero-construction.jpg",
-          alt: "Construction equipment and machinery on project site",
+          src: "/images/hardware/equipment-rental-garage.jpg",
+          alt: "Solidwin heavy construction plant hire and equipment workshop",
         }}
         actions={
           <>

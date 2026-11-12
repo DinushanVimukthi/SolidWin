@@ -57,7 +57,7 @@ export const BATCH_TO_BUILD_STEPS = [
     step: "2",
     title: "Delivery",
     description: "GPS-tracked transit mixer fleet ensuring prompt arrival within certified slump and setting times.",
-    image: "/images/service-industrial.jpg",
+    image: "/images/hardware/concrete-transit-mixer.jpg",
   },
   {
     step: "3",

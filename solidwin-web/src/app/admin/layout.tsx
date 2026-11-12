@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import styles from "./admin.module.css";
+import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 
 export const metadata: Metadata = {
-  title: "Solidwin Admin Dashboard | EXE Client Portal",
+  title: "Solidwin Admin Dashboard | EXE Central IAM",
   description: "Manage Solidwin website content, RFQs, Ready-mix volume inquiries, and analytics.",
   robots: {
     index: false,
@@ -12,25 +11,5 @@ export const metadata: Metadata = {
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={styles.adminRoot}>
-      <AdminSidebar />
-      <div className={styles.adminContent}>
-        {children}
-        <footer
-          style={{
-            padding: "8px 32px 14px",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            fontSize: "11px",
-            color: "#94a3b8",
-            marginTop: "auto",
-          }}
-        >
-          <span>Version v0.1.0</span>
-        </footer>
-      </div>
-    </div>
-  );
+  return <AdminAuthGuard>{children}</AdminAuthGuard>;
 }

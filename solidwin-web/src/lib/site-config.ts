@@ -10,8 +10,14 @@ export const siteConfig = {
     "Solidwin delivers construction services, ready-mix concrete, and hardware supply with blocks, pavers and equipment rental.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "+18005557654",
-  tradeCounterPhone: "+1 (800) 555-7654",
-  tradeCounterPhoneRaw: "+18005557654",
+  tradeCounterPhone: "036 225 0660",
+  tradeCounterPhoneRaw: "+94362250660",
+  hardwareBranch: {
+    name: "Solidwin Hardware & Trade Center",
+    address: "No. 237/1, Kahawa, Kosgama (High Level Road)",
+    phone: "036 225 0660",
+    hotline: "077 727 2272",
+  },
   batchingPlant: {
     name: "Solidwin Central Batching Plant",
     address: "Plot 88, Heavy Industrial Zone, Coastal Highway",

@@ -1,7 +1,7 @@
 # Solidwin Holdings — Corporate Engineering & Technical Knowledge Base
 **Classification:** Official Corporate Data & AI Context
 **System Scope:** Multi-Division Construction, Certified Ready-Mix Concrete, Hardware & Equipment Rentals
-**Last Synced:** 2026-10-31T19:31:51.932Z
+**Last Synced:** 2026-11-12T18:02:16.841Z
 **Sync Cycle:** Every 5 minutes from active system database
 
 ---
@@ -11,7 +11,7 @@
 - **Tagline:** Building stronger spaces
 - **Description:** Solidwin delivers construction services, ready-mix concrete, and hardware supply with blocks, pavers and equipment rental.
 - **Operating Regions:** Sri Lanka, UAE, and GCC regional infrastructure corridors.
-- **Trade Counter & Hotline:** +1 (800) 555-7654
+- **Trade Counter & Hotline:** 036 225 0660
 - **WhatsApp Dispatch:** +18005557654
 - **Central Batching Facility:** Solidwin Central Batching Plant
   - Address: Plot 88, Heavy Industrial Zone, Coastal Highway

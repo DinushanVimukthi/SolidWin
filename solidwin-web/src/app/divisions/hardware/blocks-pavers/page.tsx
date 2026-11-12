@@ -20,8 +20,8 @@ export default function BlocksPaversPage() {
         title="Built on the right materials."
         description="Explore blocks and paving options for your project. Add products directly to your quote basket for fast contractor pricing."
         image={{
-          src: "/images/service-residential.jpg",
-          alt: "Cured interlocking pavers and building blocks",
+          src: "/images/hardware/storefront-signboard-paved.jpg",
+          alt: "Interlocking paving stones and factory masonry products at Solidwin",
         }}
         actions={
           <>
