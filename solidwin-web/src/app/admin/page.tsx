@@ -6,72 +6,65 @@ import {
   Inbox,
   Building2,
   Calculator,
-  Search,
   PlusCircle,
   FileText,
   CheckCircle2,
-  X,
 } from "lucide-react";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { MetricCard } from "@/components/admin/MetricCard";
-import { StatusBadge } from "@/components/admin/StatusBadge";
-import {
-  getAdminInquiries,
-  updateAdminInquiryStatus,
-  addAdminStaffNote,
-} from "@/lib/firebase/inquiries-service";
+import { RecentInquiriesSection } from "@/components/admin/RecentInquiriesSection";
+import { inquiryRepository } from "@/lib/dal/inquiry-repository";
 import { useProjects } from "@/lib/cms/projects-store";
-import type { StoredInquiry } from "@/services/inquiry";
+import { useAdminAuth } from "@/components/admin/AdminAuthGuard";
+import type { InquiryItem, InquiryStatus } from "@/lib/dal/types";
 import styles from "./admin.module.css";
 
 export default function AdminOverviewPage() {
-  const [inquiries, setInquiries] = useState<StoredInquiry[]>([]);
+  const [inquiries, setInquiries] = useState<InquiryItem[]>([]);
   const { projects } = useProjects();
-  const [search, setSearch] = useState("");
-  const [selectedInquiry, setSelectedInquiry] = useState<StoredInquiry | null>(null);
-  const [newNote, setNewNote] = useState("");
+  const { user } = useAdminAuth();
 
   useEffect(() => {
-    getAdminInquiries().then(setInquiries);
+    let isMounted = true;
+    inquiryRepository.getAll().then((data) => {
+      if (isMounted) setInquiries(data);
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const handleStatusChange = async (id: string, status: StoredInquiry["status"]) => {
-    await updateAdminInquiryStatus(id, status);
+  const handleStatusChange = async (id: string, status: InquiryStatus) => {
+    const actor = {
+      name: user?.name || "Solidwin Admin",
+      email: user?.email || "admin@solidwin.ae",
+      role: "admin" as const,
+    };
+    await inquiryRepository.updateStatus(id, status, actor);
     setInquiries((prev) =>
       prev.map((inq) => (inq.id === id ? { ...inq, status } : inq))
     );
-    if (selectedInquiry && selectedInquiry.id === id) {
-      setSelectedInquiry((prev) => (prev ? { ...prev, status } : null));
-    }
   };
 
-  const handleAddNote = async (id: string) => {
-    if (!newNote.trim()) return;
-    await addAdminStaffNote(id, newNote.trim());
+  const handleAddNote = async (id: string, note: string) => {
+    const actor = {
+      name: user?.name || "Solidwin Admin",
+      email: user?.email || "admin@solidwin.ae",
+      role: "admin" as const,
+    };
+    await inquiryRepository.addStaffNote(id, note, actor);
     setInquiries((prev) =>
       prev.map((inq) =>
-        inq.id === id ? { ...inq, staffNotes: [...(inq.staffNotes ?? []), newNote.trim()] } : inq
+        inq.id === id
+          ? { ...inq, staffNotes: [...(inq.staffNotes ?? []), note] }
+          : inq
       )
     );
-    if (selectedInquiry && selectedInquiry.id === id) {
-      setSelectedInquiry((prev) =>
-        prev ? { ...prev, staffNotes: [...(prev.staffNotes ?? []), newNote.trim()] } : null
-      );
-    }
-    setNewNote("");
   };
-
-  const filteredInquiries = inquiries.filter(
-    (inq) =>
-      inq.name.toLowerCase().includes(search.toLowerCase()) ||
-      inq.email.toLowerCase().includes(search.toLowerCase()) ||
-      (inq.division && inq.division.toLowerCase().includes(search.toLowerCase())) ||
-      inq.message.toLowerCase().includes(search.toLowerCase())
-  );
 
   const totalInquiries = inquiries.length;
   const activeQuotes = inquiries.filter(
-    (i) => i.status === "in_progress" || i.status === "quoted"
+    (i) => i.status === "in_review" || i.status === "quoted"
   ).length;
 
   const constructionCount = inquiries.filter(
@@ -129,106 +122,12 @@ export default function AdminOverviewPage() {
 
         {/* 2-Column Dashboard Layout */}
         <div className={styles.twoColGrid}>
-          {/* Left Column: Recent Inquiries & RFQs */}
-          <div className={styles.card}>
-            <div className={styles.cardHeader}>
-              <div>
-                <h2 className={styles.cardTitle}>Recent Inquiries &amp; RFQs</h2>
-                <p className={styles.cardSubtitle}>
-                  Multi-channel lead capture from website, calculators, and AI assistant
-                </p>
-              </div>
-              <Link href="/admin/inquiries" className={styles.actionButton}>
-                View All
-              </Link>
-            </div>
-
-            <div style={{ padding: "12px 24px 0" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "6px 12px",
-                  background: "#f8fafc",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 6,
-                  maxWidth: 320,
-                }}
-              >
-                <Search size={14} color="#94a3b8" />
-                <input
-                  type="text"
-                  placeholder="Filter inquiries..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  style={{
-                    border: "none",
-                    outline: "none",
-                    background: "transparent",
-                    fontSize: 13,
-                    width: "100%",
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className={styles.cardBody} style={{ padding: "12px 0 0" }}>
-              <div className={styles.tableWrapper}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Customer</th>
-                      <th>Division</th>
-                      <th>Message</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredInquiries.length === 0 ? (
-                      <tr>
-                        <td colSpan={5} style={{ textAlign: "center", padding: "28px" }}>
-                          No inquiries found.
-                        </td>
-                      </tr>
-                    ) : (
-                      filteredInquiries.slice(0, 5).map((inq) => (
-                        <tr key={inq.id}>
-                          <td>
-                            <div className={styles.customerCell}>
-                              <span className={styles.customerName}>{inq.name}</span>
-                              <span className={styles.customerContact}>{inq.email}</span>
-                            </div>
-                          </td>
-                          <td className={styles.divisionCell}>
-                            {inq.division || "General Enquiry"}
-                          </td>
-                          <td>
-                            <div className={styles.messageSnippet} title={inq.message}>
-                              {inq.message}
-                            </div>
-                          </td>
-                          <td>
-                            <StatusBadge status={inq.status} />
-                          </td>
-                          <td>
-                            <button
-                              type="button"
-                              className={styles.actionButton}
-                              onClick={() => setSelectedInquiry(inq)}
-                            >
-                              Manage
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          {/* Left Column: Reengineered Recent Inquiries & RFQs */}
+          <RecentInquiriesSection
+            inquiries={inquiries}
+            onStatusChange={handleStatusChange}
+            onAddNote={handleAddNote}
+          />
 
           {/* Right Column: Division Breakdown & Quick Actions */}
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -350,237 +249,6 @@ export default function AdminOverviewPage() {
           </div>
         </div>
       </div>
-
-      {/* Detail & Status Modal / Drawer */}
-      {selectedInquiry && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(15, 23, 42, 0.4)",
-            backdropFilter: "blur(4px)",
-            zIndex: 100,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
-          onClick={() => setSelectedInquiry(null)}
-        >
-          <div
-            style={{
-              background: "#ffffff",
-              borderRadius: 14,
-              maxWidth: 580,
-              width: "100%",
-              maxHeight: "90vh",
-              overflowY: "auto",
-              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
-              padding: 24,
-              display: "flex",
-              flexDirection: "column",
-              gap: 20,
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: "#0f172a" }}>
-                  Inquiry Details
-                </h3>
-                <span style={{ fontSize: 12, color: "#64748b" }}>
-                  ID: {selectedInquiry.id} • {new Date(selectedInquiry.createdAt).toLocaleString()}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedInquiry(null)}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "#64748b",
-                  padding: 4,
-                }}
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Customer Information */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 12,
-                background: "#f8fafc",
-                padding: 16,
-                borderRadius: 8,
-                fontSize: 13,
-              }}
-            >
-              <div>
-                <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600 }}>
-                  NAME
-                </span>
-                <span style={{ fontWeight: 600, color: "#0f172a" }}>{selectedInquiry.name}</span>
-              </div>
-              <div>
-                <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600 }}>
-                  DIVISION
-                </span>
-                <span style={{ fontWeight: 600, color: "#0f172a" }}>
-                  {selectedInquiry.division || "General"}
-                </span>
-              </div>
-              <div>
-                <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600 }}>
-                  EMAIL
-                </span>
-                <span style={{ color: "#0f172a" }}>{selectedInquiry.email}</span>
-              </div>
-              <div>
-                <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600 }}>
-                  PHONE
-                </span>
-                <span style={{ color: "#0f172a" }}>{selectedInquiry.phone || "Not provided"}</span>
-              </div>
-            </div>
-
-            {/* Message Body */}
-            <div>
-              <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600, marginBottom: 4 }}>
-                PROJECT REQUIREMENTS &amp; MESSAGE
-              </span>
-              <div
-                style={{
-                  background: "#ffffff",
-                  border: "1px solid #e2e8f0",
-                  padding: 14,
-                  borderRadius: 8,
-                  fontSize: 13.5,
-                  lineHeight: 1.5,
-                  color: "#334155",
-                }}
-              >
-                {selectedInquiry.message}
-              </div>
-            </div>
-
-            {/* Attachments Section (Handover requires up to 25MB DWG/PDF support) */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "10px 14px",
-                border: "1px solid #e2e8f0",
-                borderRadius: 8,
-                fontSize: 12.5,
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <FileText size={18} color="#310e54" />
-                <span style={{ fontWeight: 500, color: "#0f172a" }}>
-                  Attached Documents (PDF/DWG verified)
-                </span>
-              </div>
-              <span style={{ color: "#059669", fontWeight: 600, fontSize: 11 }}>
-                Storage Verified (Direct Upload)
-              </span>
-            </div>
-
-            {/* Status Selector */}
-            <div>
-              <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600, marginBottom: 6 }}>
-                LIFECYCLE STATUS
-              </span>
-              <div style={{ display: "flex", gap: 8 }}>
-                {(["new", "in_progress", "quoted", "closed"] as const).map((st) => (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => handleStatusChange(selectedInquiry.id, st)}
-                    style={{
-                      flex: 1,
-                      padding: "8px 0",
-                      borderRadius: 6,
-                      fontSize: 12,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      border: selectedInquiry.status === st ? "2px solid #310e54" : "1px solid #cbd5e1",
-                      background: selectedInquiry.status === st ? "#f3e8ff" : "#ffffff",
-                      color: selectedInquiry.status === st ? "#310e54" : "#475569",
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {st.replace("_", " ")}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Staff Internal Notes */}
-            <div>
-              <span style={{ color: "#64748b", display: "block", fontSize: 11, fontWeight: 600, marginBottom: 6 }}>
-                STAFF INTERNAL NOTES
-              </span>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 10 }}>
-                {(selectedInquiry.staffNotes ?? []).length === 0 ? (
-                  <span style={{ fontSize: 12, color: "#94a3b8" }}>No staff notes yet.</span>
-                ) : (
-                  (selectedInquiry.staffNotes ?? []).map((note, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        background: "#f8fafc",
-                        borderLeft: "3px solid #310e54",
-                        padding: "6px 10px",
-                        fontSize: 12,
-                        color: "#334155",
-                      }}
-                    >
-                      {note}
-                    </div>
-                  ))
-                )}
-              </div>
-
-              <div style={{ display: "flex", gap: 8 }}>
-                <input
-                  type="text"
-                  placeholder="Add internal follow-up note..."
-                  value={newNote}
-                  onChange={(e) => setNewNote(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleAddNote(selectedInquiry.id);
-                    }
-                  }}
-                  style={{
-                    flex: 1,
-                    padding: "8px 12px",
-                    border: "1px solid #cbd5e1",
-                    borderRadius: 6,
-                    fontSize: 13,
-                    outline: "none",
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => handleAddNote(selectedInquiry.id)}
-                  className={styles.actionButton}
-                  style={{ background: "#310e54", color: "#ffffff", borderColor: "#310e54" }}
-                >
-                  Add Note
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

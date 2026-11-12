@@ -1,23 +1,38 @@
 import clsx from "clsx";
 import styles from "./StatusBadge.module.css";
+import type { InquiryStatus } from "@/lib/dal/types";
+
+export type ExtendedStatus = InquiryStatus | "in_progress";
 
 interface StatusBadgeProps {
-  status: "new" | "in_progress" | "quoted" | "closed";
+  status: ExtendedStatus;
   className?: string;
+  size?: "sm" | "md";
 }
 
-export function StatusBadge({ status, className }: StatusBadgeProps) {
-  const labels: Record<StatusBadgeProps["status"], string> = {
+export function StatusBadge({ status, className, size = "md" }: StatusBadgeProps) {
+  const normalized = status === "in_progress" ? "in_review" : status;
+
+  const labels: Record<string, string> = {
     new: "New",
-    in_progress: "In Progress",
+    in_review: "In Review",
+    in_progress: "In Review",
     quoted: "Quoted",
+    won: "Won",
     closed: "Closed",
   };
 
   return (
-    <span className={clsx(styles.badge, styles[status], className)}>
+    <span
+      className={clsx(
+        styles.badge,
+        styles[normalized] || styles.closed,
+        size === "sm" && styles.badgeSm,
+        className
+      )}
+    >
       <span className={styles.dot} aria-hidden="true" />
-      {labels[status]}
+      {labels[status] || status}
     </span>
   );
 }
