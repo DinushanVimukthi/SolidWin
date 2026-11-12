@@ -1,17 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  ShieldCheck,
-  ArrowRight,
-  Loader2,
-  Lock,
-  ArrowLeft,
-  ExternalLink,
-} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import { AdminSidebar } from "./AdminSidebar";
 import adminStyles from "@/app/admin/admin.module.css";
 import guardStyles from "./AdminAuthGuard.module.css";
@@ -47,12 +38,14 @@ export function useAdminAuth() {
 
 export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [user, setUser] = useState<AdminUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // If on the SSO callback route, let the callback page execute the handshake directly
-  const isCallbackRoute = pathname?.startsWith("/admin/sso");
+  // Auth pages (login, callback) render without the admin shell
+  const isAuthRoute =
+    pathname === "/admin/login" || pathname?.startsWith("/admin/sso");
 
   const checkSession = useCallback(async () => {
     try {
@@ -67,23 +60,30 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
       } else {
         setUser(null);
         setIsAuthenticated(false);
+        if (!isAuthRoute) {
+          const redirect = encodeURIComponent(pathname || "/admin");
+          router.replace(`/admin/login?redirect=${redirect}`);
+        }
       }
     } catch (err) {
       console.error("Session check error:", err);
       setUser(null);
       setIsAuthenticated(false);
+      if (!isAuthRoute) {
+        router.replace("/admin/login");
+      }
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [isAuthRoute, pathname, router]);
 
   useEffect(() => {
-    if (!isCallbackRoute) {
+    if (!isAuthRoute) {
       checkSession();
     } else {
       setLoading(false);
     }
-  }, [isCallbackRoute, checkSession]);
+  }, [isAuthRoute, checkSession]);
 
   const logout = useCallback(async () => {
     try {
@@ -97,17 +97,18 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     } finally {
       setUser(null);
       setIsAuthenticated(false);
+      router.replace("/admin/login");
     }
-  }, []);
+  }, [router]);
 
-  // Pass-through for callback route
-  if (isCallbackRoute) {
+  // Auth routes (like /admin/login and /admin/sso/callback) render directly
+  if (isAuthRoute) {
     return (
       <AdminAuthContext.Provider
         value={{
           user,
           loading: false,
-          isAuthenticated: false,
+          isAuthenticated,
           logout,
           refresh: checkSession,
         }}
@@ -117,8 +118,8 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Loading spinner while verifying authentication
-  if (loading) {
+  // Loading spinner while verifying authentication or transitioning
+  if (loading || !isAuthenticated) {
     return (
       <div className={guardStyles.guardOverlay}>
         <div className={guardStyles.guardCard}>
@@ -133,72 +134,8 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  // Unauthenticated: Show Central SSO Gate
-  if (!isAuthenticated) {
-    const portalBaseUrl =
-      process.env.NEXT_PUBLIC_EXE_PORTAL_URL || "http://localhost:3001";
-    const currentOrigin =
-      typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
-    const currentPath =
-      typeof window !== "undefined" ? window.location.pathname + window.location.search : "/admin";
-    const redirectUri = `${currentOrigin}${currentPath}`;
-    const ssoSignInUrl = `${portalBaseUrl}/admin/sign-in?sso_target=solidwin&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}`;
-
-    return (
-      <div className={guardStyles.guardOverlay}>
-        <div className={guardStyles.guardCard}>
-          <div className={guardStyles.cardGlow} />
-
-          {/* Unified Brand Header */}
-          <div className={guardStyles.brandRow}>
-            <div className={guardStyles.exeBadge}>EXE.</div>
-            <div className={guardStyles.exchangeIcon}>
-              <ArrowRight size={18} />
-            </div>
-            <Image
-              src="/logo-on-light.png"
-              alt="Solidwin"
-              width={125}
-              height={32}
-              className={guardStyles.solidwinLogo}
-              priority
-            />
-          </div>
-
-          <div className={guardStyles.ssoTag}>
-            <ShieldCheck size={14} />
-            <span>Central Single Sign-On (SSO)</span>
-          </div>
-
-          <h1 className={guardStyles.title}>Solidwin Workspace Gate</h1>
-          <p className={guardStyles.description}>
-            Solidwin administration is centrally managed via EXE Portal IAM.
-            Sign in with your EXE Central Administrator account to access this
-            workspace without a separate password.
-          </p>
-
-          <div className={guardStyles.actionSection}>
-            <a href={ssoSignInUrl} className={guardStyles.ssoButton}>
-              <span>Sign In with EXE Central Portal</span>
-              <ArrowRight size={16} />
-            </a>
-
-            <Link href="/" className={guardStyles.returnLink}>
-              <ArrowLeft size={14} />
-              <span>Return to Public Website</span>
-            </Link>
-          </div>
-
-          <div className={guardStyles.securityFooter}>
-            <Lock size={13} className={guardStyles.securityIcon} />
-            <span>End-to-End Cryptographic HMAC Token Exchange</span>
-          </div>
+        <div style={{ display: "none" }} aria-hidden="true">
+          {children}
         </div>
       </div>
     );
