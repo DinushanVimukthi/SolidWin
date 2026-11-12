@@ -51,14 +51,13 @@ function AdminLoginInner() {
     return (
       <div className={styles.guardOverlay}>
         <div className={styles.guardCard}>
-          <div className={styles.cardGlow} />
           <div className={styles.loadingBox}>
-            <Loader2 size={44} className={styles.spinner} />
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
-              Checking Central Session...
+            <Loader2 size={36} className={styles.spinner} />
+            <div style={{ fontSize: 15, fontWeight: 600, color: "#0f172a" }}>
+              Verifying Session...
             </div>
             <div style={{ fontSize: 13, color: "#64748b" }}>
-              Verifying EXE Central Single Sign-On status
+              Checking EXE Central Single Sign-On status
             </div>
           </div>
         </div>
@@ -69,51 +68,44 @@ function AdminLoginInner() {
   return (
     <div className={styles.guardOverlay}>
       <div className={styles.guardCard}>
-        <div className={styles.cardGlow} />
-
-        {/* Unified Brand Header */}
+        {/* Brand Header */}
         <div className={styles.brandRow}>
-          <div className={styles.exeBadge}>EXE.</div>
-          <div className={styles.exchangeIcon}>
-            <ArrowRight size={18} />
-          </div>
           <Image
             src="/logo-on-light.png"
             alt="Solidwin"
-            width={125}
-            height={32}
+            width={135}
+            height={34}
             className={styles.solidwinLogo}
             priority
           />
         </div>
 
         <div className={styles.ssoTag}>
-          <ShieldCheck size={14} />
-          <span>Central Single Sign-On (SSO)</span>
+          <ShieldCheck size={13} />
+          <span>EXE Central Single Sign-On</span>
         </div>
 
-        <h1 className={styles.title}>Solidwin Workspace Gate</h1>
+        <h1 className={styles.title}>Admin Portal Sign-In</h1>
         <p className={styles.description}>
-          Solidwin administration is centrally authenticated via EXE Portal IAM.
-          Sign in with your EXE Central Administrator account to access this
-          workspace without a second login.
+          Solidwin administration is centrally managed through the EXE Client Portal.
+          Sign in with your administrator account to access the dashboard.
         </p>
 
         <div className={styles.actionSection}>
           <a href={ssoSignInUrl} className={styles.ssoButton}>
-            <span>Sign In with EXE Central Portal</span>
-            <ArrowRight size={16} />
+            <span>Sign In with EXE Portal</span>
+            <ArrowRight size={15} />
           </a>
 
           <Link href="/" className={styles.returnLink}>
-            <ArrowLeft size={14} />
-            <span>Return to Public Website</span>
+            <ArrowLeft size={13} />
+            <span>Return to Solidwin website</span>
           </Link>
         </div>
 
         <div className={styles.securityFooter}>
-          <Lock size={13} className={styles.securityIcon} />
-          <span>End-to-End Cryptographic HMAC Token Exchange</span>
+          <Lock size={12} className={styles.securityIcon} />
+          <span>Encrypted token authentication via EXE Central IAM</span>
         </div>
       </div>
     </div>
@@ -127,7 +119,7 @@ export default function AdminLoginPage() {
         <div className={styles.guardOverlay}>
           <div className={styles.guardCard}>
             <div className={styles.loadingBox}>
-              <Loader2 size={44} className={styles.spinner} />
+              <Loader2 size={36} className={styles.spinner} />
             </div>
           </div>
         </div>
@@ -137,4 +129,3 @@ export default function AdminLoginPage() {
     </Suspense>
   );
 }
-

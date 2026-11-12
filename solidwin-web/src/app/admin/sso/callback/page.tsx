@@ -71,46 +71,33 @@ function SsoCallbackInner() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #090d16 0%, #16122b 50%, #1f143d 100%)",
+        background: "#f8fafc",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         padding: 24,
-        fontFamily: "var(--font-sans, system-ui, sans-serif)",
+        fontFamily: "var(--font-inter, system-ui, sans-serif)",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: 460,
+          maxWidth: 440,
           background: "#ffffff",
-          borderRadius: 16,
-          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.45)",
+          borderRadius: 12,
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03)",
           padding: 36,
           textAlign: "center",
         }}
       >
         {/* Brand Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 28 }}>
-          <div
-            style={{
-              padding: "6px 12px",
-              background: "#1e1b4b",
-              color: "#fbbf24",
-              borderRadius: 8,
-              fontWeight: 900,
-              fontSize: 16,
-              letterSpacing: "-0.04em",
-            }}
-          >
-            EXE.
-          </div>
-          <span style={{ color: "#94a3b8", fontSize: 18 }}>↔</span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 24 }}>
           <Image
             src="/logo-on-light.png"
             alt="Solidwin"
-            width={120}
-            height={30}
+            width={130}
+            height={32}
             style={{ objectFit: "contain" }}
           />
         </div>

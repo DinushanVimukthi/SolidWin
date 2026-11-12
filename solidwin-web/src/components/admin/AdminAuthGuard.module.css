@@ -1,3 +1,5 @@
+/* Clean, minimal Light Theme for SolidWin Admin Login & Auth Guard */
+
 .guardOverlay {
   min-height: 100vh;
   width: 100%;
@@ -5,97 +7,86 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0f172a 65%, #030712 100%);
+  background-color: #f8fafc;
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   color: #0f172a;
 }
 
 .guardCard {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
   background: #ffffff;
-  border-radius: 20px;
-  padding: 40px 36px;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 36px 32px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cardGlow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4f46e5, #a855f7, #f59e0b);
 }
 
 .brandRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
   margin-bottom: 24px;
+}
+
+.solidwinLogo {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+}
+
+.dividerDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
 }
 
 .exeBadge {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  background: #1e1b4b;
-  color: #fbbf24;
-  border-radius: 8px;
-  font-weight: 900;
-  font-size: 15px;
-  letter-spacing: -0.04em;
-  border: 1px solid rgba(251, 191, 36, 0.3);
-}
-
-.exchangeIcon {
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-}
-
-.solidwinLogo {
-  height: 28px;
-  width: auto;
-  object-fit: contain;
+  padding: 3px 8px;
+  background: #f1f5f9;
+  color: #334155;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  border: 1px solid #e2e8f0;
 }
 
 .ssoTag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #4f46e5;
-  background: #eef2ff;
-  border: 1px solid #e0e7ff;
-  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #310e54;
+  background: #f5f3ff;
+  border: 1px solid #ede9fe;
+  padding: 3px 10px;
   border-radius: 9999px;
   margin-bottom: 14px;
 }
 
 .title {
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 700;
   color: #0f172a;
-  letter-spacing: -0.02em;
-  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
 }
 
 .description {
-  font-size: 14px;
+  font-size: 13.5px;
   color: #64748b;
-  line-height: 1.55;
-  margin: 0 0 28px;
+  line-height: 1.5;
+  margin: 0 0 24px;
 }
 
 .actionSection {
@@ -107,31 +98,28 @@
 
 .ssoButton {
   width: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 13px 20px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #310e54 0%, #1e1b4b 60%, #4338ca 100%);
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 8px;
+  background: #310e54;
   color: #ffffff;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid transparent;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(49, 14, 84, 0.35);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.15s ease;
 }
 
 .ssoButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(49, 14, 84, 0.45);
-  background: linear-gradient(135deg, #3c1266 0%, #25225c 60%, #4f46e5 100%);
+  background: #441475;
 }
 
 .ssoButton:active {
-  transform: translateY(0);
+  background: #270b43;
 }
 
 .returnLink {
@@ -139,8 +127,8 @@
   color: #64748b;
   text-decoration: none;
   font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
@@ -154,14 +142,14 @@
 }
 
 .securityFooter {
-  margin-top: 28px;
-  padding-top: 20px;
+  margin-top: 24px;
+  padding-top: 18px;
   border-top: 1px solid #f1f5f9;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 11.5px;
   color: #94a3b8;
 }
@@ -176,8 +164,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 24px 0;
+  gap: 14px;
+  padding: 16px 0;
 }
 
 .spinner {
@@ -193,4 +181,3 @@
     transform: rotate(360deg);
   }
 }
-

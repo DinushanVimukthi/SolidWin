@@ -123,14 +123,13 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     return (
       <div className={guardStyles.guardOverlay}>
         <div className={guardStyles.guardCard}>
-          <div className={guardStyles.cardGlow} />
           <div className={guardStyles.loadingBox}>
-            <Loader2 size={44} className={guardStyles.spinner} />
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
-              Verifying EXE Central Session...
+            <Loader2 size={36} className={guardStyles.spinner} />
+            <div style={{ fontSize: 15, fontWeight: 600, color: "#0f172a" }}>
+              Verifying Session...
             </div>
             <div style={{ fontSize: 13, color: "#64748b" }}>
-              Connecting to EXE Single Sign-On provider
+              Checking EXE Central Single Sign-On status
             </div>
           </div>
         </div>
